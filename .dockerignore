@@ -1,0 +1,8 @@
+.env
+.git
+.github
+auth.json
+docker-compose.yml
+tester
+__pycache__
+README.md

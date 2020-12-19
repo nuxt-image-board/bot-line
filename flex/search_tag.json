@@ -1,0 +1,62 @@
+{
+    "type": "bubble",
+    "size": "micro",
+    "direction": "ltr",
+    "action": {
+        "type": "message",
+        "label": "tag_search_ID",
+        "text": "タグ検索 ID"
+    },
+    "body": {
+        "type": "box",
+        "layout": "vertical",
+        "backgroundColor": "#6A4433",
+        "contents": [{
+                "type": "filler",
+                "flex": 1
+            },
+            {
+                "type": "text",
+                "text": "TOTAL_HITS",
+                "color": "#FFFFFFFF",
+                "flex": 2,
+                "align": "center",
+                "gravity": "center",
+                "contents": []
+            },
+            {
+                "type": "text",
+                "text": "TOTAL_LIKES",
+                "color": "#FFFFFFFF",
+                "flex": 2,
+                "align": "center",
+                "gravity": "center",
+                "contents": []
+            },
+            {
+                "type": "filler",
+                "flex": 1
+            }
+        ]
+    },
+    "footer": {
+        "type": "box",
+        "layout": "horizontal",
+        "backgroundColor": "#CCAA88",
+        "contents": [{
+            "type": "box",
+            "layout": "vertical",
+            "contents": [{
+                "type": "text",
+                "text": "TITLE",
+                "weight": "bold",
+                "size": "md",
+                "color": "#FFFFFFFF",
+                "align": "center",
+                "gravity": "center",
+                "wrap": true,
+                "contents": []
+            }]
+        }]
+    }
+}

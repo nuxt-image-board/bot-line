@@ -1,0 +1,38 @@
+# Pythonイメージの取得
+FROM python:3.7.9-slim-buster
+# ワーキングディレクトリの指定
+WORKDIR /app
+COPY ./requirements.txt ./
+COPY ./line_magic/requirements.txt ./line_magic_requirements.txt
+RUN apt-get update && apt-get install -y\
+    build-essential \
+    gfortran \
+    python3-numpy \
+    python3-dev \
+    python3-opencv \
+    libatlas-base-dev \
+    cmake \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN pip install https://www.piwheels.org/simple/numpy/numpy-1.18.5-cp37-cp37m-linux_armv7l.whl \
+    && pip install https://www.piwheels.org/simple/scipy/scipy-1.4.1-cp37-cp37m-linux_armv7l.whl \
+    && pip install https://www.piwheels.org/simple/keras-preprocessing/Keras_Preprocessing-1.1.2-py2.py3-none-any.whl \
+    && pip install https://www.piwheels.org/simple/opencv-python-headless/opencv_python_headless-4.4.0.46-cp37-cp37m-linux_armv7l.whl \
+    && pip install https://www.piwheels.org/simple/wrapt/wrapt-1.12.1-cp37-cp37m-linux_armv7l.whl \
+    && pip install https://www.piwheels.org/simple/h5py/h5py-2.10.0-cp37-cp37m-linux_armv7l.whl \
+    && pip install https://www.piwheels.org/simple/termcolor/termcolor-1.1.0-py3-none-any.whl \
+    && pip install https://www.piwheels.org/simple/grpcio/grpcio-1.33.2-cp37-cp37m-linux_armv7l.whl \
+    && pip install https://www.piwheels.org/simple/kiwisolver/kiwisolver-1.3.1-cp37-cp37m-linux_armv7l.whl \
+    && pip install https://www.piwheels.org/simple/pillow/Pillow-8.0.1-cp37-cp37m-linux_armv7l.whl \
+    && pip install https://www.piwheels.org/simple/matplotlib/matplotlib-3.3.3-cp37-cp37m-linux_armv7l.whl \
+    && pip install https://www.piwheels.org/simple/scikit-image/scikit_image-0.17.2-cp37-cp37m-linux_armv7l.whl \
+    && pip install https://github.com/lhelontra/tensorflow-on-arm/releases/download/v2.3.0/tensorflow-2.3.0-cp37-none-linux_armv7l.whl
+RUN pip install -r requirements.txt
+RUN pip install -r line_magic_requirements.txt
+# .NudeNet/lite_classifier Checkpointのダウンロード
+RUN python3 -c "from nudenet import NudeClassifierLite;x = NudeClassifierLite()"
+# モジュールを揃える
+COPY . .
+# 起動環境設定
+EXPOSE 1204
+ENTRYPOINT [ "gunicorn", "main:app" ]
+CMD [ "-c", "gunicorn_config.py" ]

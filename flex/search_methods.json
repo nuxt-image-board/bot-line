@@ -1,0 +1,238 @@
+{
+    "type": "carousel",
+    "contents": [{
+            "type": "bubble",
+            "size": "micro",
+            "direction": "ltr",
+            "action": {
+                "type": "message",
+                "label": "all",
+                "text": "新着イラスト"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "backgroundColor": "#6A4433",
+                "contents": [{
+                    "type": "image",
+                    "url": "https://i.imgur.com/3km3XB7.png"
+                }]
+            },
+            "footer": {
+                "type": "box",
+                "layout": "horizontal",
+                "backgroundColor": "#CCAA88",
+                "contents": [{
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [{
+                        "type": "text",
+                        "text": "全て",
+                        "weight": "bold",
+                        "size": "md",
+                        "color": "#FFFFFFFF",
+                        "align": "center",
+                        "gravity": "center",
+                        "wrap": true,
+                        "contents": []
+                    }]
+                }]
+            }
+        },
+        {
+            "type": "bubble",
+            "size": "micro",
+            "direction": "ltr",
+            "action": {
+                "type": "message",
+                "label": "ranking",
+                "text": "ランキング検索"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "backgroundColor": "#6A4433",
+                "contents": [{
+                    "type": "image",
+                    "url": "https://i.imgur.com/3w2GVAK.png"
+                }]
+            },
+            "footer": {
+                "type": "box",
+                "layout": "horizontal",
+                "backgroundColor": "#CCAA88",
+                "contents": [{
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [{
+                        "type": "text",
+                        "text": "ランキング",
+                        "weight": "bold",
+                        "size": "md",
+                        "color": "#FFFFFFFF",
+                        "align": "center",
+                        "gravity": "center",
+                        "wrap": true,
+                        "contents": []
+                    }]
+                }]
+            }
+        },
+        {
+            "type": "bubble",
+            "size": "micro",
+            "direction": "ltr",
+            "action": {
+                "type": "message",
+                "label": "character",
+                "text": "キャラクターから探す"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "backgroundColor": "#6A4433",
+                "contents": [{
+                    "type": "image",
+                    "url": "https://i.imgur.com/8BR8C3E.png"
+                }]
+            },
+            "footer": {
+                "type": "box",
+                "layout": "horizontal",
+                "backgroundColor": "#CCAA88",
+                "contents": [{
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [{
+                        "type": "text",
+                        "text": "キャラクター",
+                        "weight": "bold",
+                        "size": "md",
+                        "color": "#FFFFFFFF",
+                        "align": "center",
+                        "gravity": "center",
+                        "wrap": true,
+                        "contents": []
+                    }]
+                }]
+            }
+        },
+        {
+            "type": "bubble",
+            "size": "micro",
+            "direction": "ltr",
+            "action": {
+                "type": "message",
+                "label": "tag",
+                "text": "タグから探す"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "backgroundColor": "#6A4433",
+                "contents": [{
+                    "type": "image",
+                    "url": "https://i.imgur.com/7Nq54pK.png"
+                }]
+            },
+            "footer": {
+                "type": "box",
+                "layout": "horizontal",
+                "backgroundColor": "#CCAA88",
+                "contents": [{
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [{
+                        "type": "text",
+                        "text": "タグ",
+                        "weight": "bold",
+                        "size": "md",
+                        "color": "#FFFFFFFF",
+                        "align": "center",
+                        "gravity": "center",
+                        "wrap": true,
+                        "contents": []
+                    }]
+                }]
+            }
+        },
+        {
+            "type": "bubble",
+            "size": "micro",
+            "direction": "ltr",
+            "action": {
+                "type": "message",
+                "label": "artist",
+                "text": "絵師から探す"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "backgroundColor": "#6A4433",
+                "contents": [{
+                    "type": "image",
+                    "url": "https://i.imgur.com/KdjWcc8.png"
+                }]
+            },
+            "footer": {
+                "type": "box",
+                "layout": "horizontal",
+                "backgroundColor": "#CCAA88",
+                "contents": [{
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [{
+                        "type": "text",
+                        "text": "絵師",
+                        "weight": "bold",
+                        "size": "md",
+                        "color": "#FFFFFFFF",
+                        "align": "center",
+                        "gravity": "center",
+                        "wrap": true,
+                        "contents": []
+                    }]
+                }]
+            }
+        },
+        {
+            "type": "bubble",
+            "size": "micro",
+            "direction": "ltr",
+            "action": {
+                "type": "message",
+                "label": "image",
+                "text": "画像から探す"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "backgroundColor": "#6A4433",
+                "contents": [{
+                    "type": "image",
+                    "url": "https://i.imgur.com/bXFi8GW.png"
+                }]
+            },
+            "footer": {
+                "type": "box",
+                "layout": "horizontal",
+                "backgroundColor": "#CCAA88",
+                "contents": [{
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [{
+                        "type": "text",
+                        "text": "画像",
+                        "weight": "bold",
+                        "size": "md",
+                        "color": "#FFFFFFFF",
+                        "align": "center",
+                        "gravity": "center",
+                        "wrap": true,
+                        "contents": []
+                    }]
+                }]
+            }
+        }
+    ]
+}

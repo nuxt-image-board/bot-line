@@ -1,0 +1,3 @@
+[submodule "line_magic"]
+	path = line_magic
+	url = https://github.com/Dosugamea/l-m-api3

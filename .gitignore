@@ -1,0 +1,4 @@
+test.jpg
+*.pyc
+*/*.pyc
+.env

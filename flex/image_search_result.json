@@ -1,0 +1,114 @@
+{
+    "type": "bubble",
+    "size": "mega",
+    "direction": "ltr",
+    "action": {
+        "type": "uri",
+        "label": "source_link",
+        "uri": "https://example.com"
+    },
+    "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [{
+                "type": "image",
+                "url": "https://ascii2d.net/thumbnail/b/c/a/7/bca7ec8627098a725c1ec1c33effc352.jpg",
+                "margin": "xxl",
+                "gravity": "top",
+                "size": "full",
+                "aspectRatio": "3:2",
+                "aspectMode": "fit"
+            },
+            {
+                "type": "box",
+                "layout": "vertical",
+                "position": "absolute",
+                "offsetTop": "10px",
+                "offsetBottom": "0px",
+                "offsetStart": "5px",
+                "offsetEnd": "0px",
+                "paddingAll": "0px",
+                "width": "200px",
+                "height": "20px",
+                "borderWidth": "1px",
+                "backgroundColor": "#6A4433",
+                "borderColor": "#FFFFFFFF",
+                "cornerRadius": "10px",
+                "contents": [{
+                    "type": "text",
+                    "text": "1094x1500 JPEG 213.9KB",
+                    "size": "sm",
+                    "color": "#FFFFFFFF",
+                    "align": "center",
+                    "gravity": "center",
+                    "contents": []
+                }]
+            },
+            {
+                "type": "box",
+                "layout": "vertical",
+                "position": "absolute",
+                "offsetTop": "33px",
+                "offsetBottom": "0px",
+                "offsetStart": "5px",
+                "paddingAll": "0px",
+                "width": "100px",
+                "height": "20px",
+                "borderWidth": "1px",
+                "backgroundColor": "#955E4B",
+                "borderColor": "#FFFFFFFF",
+                "cornerRadius": "10px",
+                "contents": [{
+                    "type": "text",
+                    "text": "kazukiadumi",
+                    "size": "sm",
+                    "color": "#FFFFFFFF",
+                    "align": "center",
+                    "gravity": "center",
+                    "contents": []
+                }]
+            },
+            {
+                "type": "box",
+                "layout": "vertical",
+                "position": "absolute",
+                "offsetTop": "10px",
+                "offsetEnd": "5px",
+                "width": "50px",
+                "borderWidth": "1px",
+                "backgroundColor": "#FFDD99",
+                "borderColor": "#000000FF",
+                "cornerRadius": "5px",
+                "contents": [{
+                    "type": "text",
+                    "text": "twitter",
+                    "size": "sm",
+                    "color": "#000000FF",
+                    "align": "center",
+                    "gravity": "center",
+                    "contents": []
+                }]
+            }
+        ]
+    },
+    "footer": {
+        "type": "box",
+        "layout": "horizontal",
+        "backgroundColor": "#CCAA88",
+        "contents": [{
+            "type": "box",
+            "layout": "vertical",
+            "contents": [{
+                "type": "text",
+                "text": "2020.05.02",
+                "weight": "bold",
+                "size": "md",
+                "color": "#FFFFFFFF",
+                "align": "center",
+                "gravity": "center",
+                "wrap": true,
+                "contents": []
+            }]
+        }]
+    }
+}

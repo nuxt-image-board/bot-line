@@ -1,0 +1,63 @@
+name: Build and Publish Docker
+
+on:
+  release:
+    types: [published]
+  push:
+    branches:
+      - release
+  workflow_dispatch:
+    branches:
+      - release
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: bot-line
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.MY_REPO_PAT }}
+          submodules: recursive
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+        with:
+          image: tonistiigi/binfmt:latest
+          platforms: arm
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASS }}
+
+      - name: Build and push amd64
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile_amd64
+          push: true
+          tags: |
+            dosugamea/${{ env.IMAGE_NAME }}:amd64
+            dosugamea/${{ env.IMAGE_NAME }}:amd64-${{ github.run_number }}
+          cache-from: type=registry,ref=dosugamea/${{ env.IMAGE_NAME }}:amd64
+          cache-to: type=inline,mode=max
+
+      - name: Build and push armv7
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile_armv7
+          platforms: linux/arm/v7
+          push: true
+          tags: |
+            dosugamea/${{ env.IMAGE_NAME }}:armv7
+            dosugamea/${{ env.IMAGE_NAME }}:armv7-${{ github.run_number }}
+          cache-from: type=registry,ref=dosugamea/${{ env.IMAGE_NAME }}:armv7
+          cache-to: type=inline,mode=max
