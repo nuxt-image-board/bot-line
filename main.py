@@ -1,6 +1,9 @@
 from flask import Flask, request
-from line_magic.line_magic import LineMessagingClient, LineMessagingTracer
-from line_magic.line_magic import TextMessage, FlexMessage
+from line_magic.line_magic import (
+    LineMessagingClient, LineMessagingTracer,
+    TextMessage, FlexMessage,
+    TraceType
+)
 from nb_api.flex_generator import NuxtImageBoardFlexGenerator
 from nb_api.client import NuxtImageBoardClient
 from dotenv import load_dotenv
@@ -18,7 +21,7 @@ classifier = NudeClassifierLite()
 cl = LineMessagingClient(
     channelAccessToken=os.environ.get("LINE_CHANNEL_TOKEN")
 )
-tracer = LineMessagingTracer(cl, prefix=["!", "?", "#", "."])
+tracer = LineMessagingTracer(cl, None, ["!", "?", "#", "."])
 igl = NuxtImageBoardFlexGenerator(
     "flex",
     os.environ.get("CDN_ENDPOINT")
@@ -30,18 +33,18 @@ icl = NuxtImageBoardClient(
 
 
 # イベント別受信処理
-class Operations(object):
-    @tracer.Before("Operation")
-    def set_Token(self, cl, op):
+class Events(object):
+    @tracer.Before(TraceType.EVENT)
+    def set_Token(self, ctx, cl, op):
         if "replyToken" in op:
             cl.setReplyToken(op["replyToken"])
 
-    @tracer.Operation("message")
-    def got_message(self, cl, msg):
-        self.trace(msg, "Content")
+    @tracer.Event("message")
+    def got_message(self, ctx, cl, msg):
+        ctx.trace(msg, TraceType.CONTENT)
 
-    @tracer.Operation("follow")
-    def got_follow(self, cl, msg):
+    @tracer.Event("follow")
+    def got_follow(self, ctx, cl, op):
         msgs = [TextMessage("友達登録ありがとうございます!")]
         cl.replyMessage(msgs)
 
@@ -49,12 +52,11 @@ class Operations(object):
 # コンテンツ別受信処理
 class Contents(object):
     @tracer.Content("text")
-    def got_text(self, cl, msg):
-        self.trace(msg, "Command")
-
+    def got_text(self, ctx, cl, msg):
+        ctx.trace(msg, TraceType.COMMAND)
 
     @tracer.Content("image")
-    def got_image(self, cl, msg):
+    def got_image(self, ctx, cl, msg):
         with tempfile.TemporaryDirectory() as path:
             with open(f"{path}/img.jpg", "wb") as f:
                 f.write(cl.getContent(msg["message"]["id"]))
@@ -75,54 +77,54 @@ class Contents(object):
 # コマンド別受信処理
 class Commands(object):
     @tracer.Command(alt=["ハロー", "hello"])
-    def hi(self, cl, msg):
+    def hi(self, ctx, cl, msg):
         '''Check the bot Alive'''
         msgs = [TextMessage("Hi too!")]
         cl.replyMessage(msgs)
 
     @tracer.Command(noPrefix=True)
-    def help(self, cl, msg):
+    def help(self, ctx, cl, msg):
         '''Display this help message'''
-        msgs = [TextMessage(self.genHelp())]
+        msgs = [TextMessage(ctx.genHelp())]
         cl.replyMessage(msgs)
 
     @tracer.Command(prefix=False)
-    def イラスト検索(self, cl, msg):
+    def イラスト検索(self, ctx, cl, msg):
         msgs = [FlexMessage(igl.flex["search_methods"])]
         cl.replyMessage(msgs)
 
     @tracer.Command(prefix=False)
-    def タグから探す(self, cl, msg):
+    def タグから探す(self, ctx, cl, msg):
         tags = icl.getTagList()
         msgs = [igl.generateTagSearchCarousel(tags, title="タグ検索")]
         cl.replyMessage(msgs)
 
     @tracer.Command(prefix=False)
-    def キャラクターから探す(self, cl, msg):
+    def キャラクターから探す(self, ctx, cl, msg):
         tags = icl.getCharacterList()
         msgs = [igl.generateTagSearchCarousel(tags, title="キャラクター検索")]
         cl.replyMessage(msgs)
 
     @tracer.Command(prefix=False)
-    def 絵師から探す(self, cl, msg):
+    def 絵師から探す(self, ctx, cl, msg):
         artists = icl.getArtistList()
         msgs = [igl.generateTagSearchCarousel(artists, title="絵師検索")]
         cl.replyMessage(msgs)
 
     @tracer.Command(prefix=False)
-    def 画像から探す(self, cl, msg):
+    def 画像から探す(self, ctx, cl, msg):
         msgs = [TextMessage("検索したい画像を送信または転送してください!\n(検索には10~15秒程度かかります)")]
         cl.replyMessage(msgs)
 
     @tracer.Command(prefix=False)
-    def ランキング検索(self, cl, msg):
+    def ランキング検索(self, ctx, cl, msg):
         search_result = icl.getRankings()
         msgs = [igl.generateNormalSearchResultCarousel(search_result)]
         cl.replyMessage(msgs)
 
     @tracer.Command(prefix=False, inpart=True)
-    def 新着イラスト(self, cl, msg):
-        args = self.getArg(["新着イラスト"], msg["message"]["text"], ignoreCase=False)
+    def 新着イラスト(self, ctx, cl, msg):
+        args = ctx.getArg(["新着イラスト"], msg["message"]["text"], ignoreCase=False)
         if not args:
             search_result = icl.getRecents()
         elif not args[0].isdigit():
@@ -139,8 +141,8 @@ class Commands(object):
         cl.replyMessage(msgs)
 
     @tracer.Command(prefix=False, inpart=True)
-    def タグ検索(self, cl, msg):
-        args = self.getArg(["タグ検索"], msg["message"]["text"], ignoreCase=False)
+    def タグ検索(self, ctx, cl, msg):
+        args = ctx.getArg(["タグ検索"], msg["message"]["text"], ignoreCase=False)
         if not args:
             msgs = [TextMessage("タグIDを指定してください")]
             cl.replyMessage(msgs)
@@ -158,8 +160,8 @@ class Commands(object):
         cl.replyMessage(msgs)
 
     @tracer.Command(prefix=False, inpart=True)
-    def キャラクター検索(self, cl, msg):
-        args = self.getArg(["キャラクター検索"], msg["message"]["text"], ignoreCase=False)
+    def キャラクター検索(self, ctx, cl, msg):
+        args = ctx.getArg(["キャラクター検索"], msg["message"]["text"], ignoreCase=False)
         if not args:
             msgs = [TextMessage("キャラクターIDを指定してください")]
             cl.replyMessage(msgs)
@@ -177,8 +179,8 @@ class Commands(object):
         cl.replyMessage(msgs)
 
     @tracer.Command(prefix=False, inpart=True)
-    def 絵師検索(self, cl, msg):
-        args = self.getArg(["絵師検索"], msg["message"]["text"], ignoreCase=False)
+    def 絵師検索(self, ctx, cl, msg):
+        args = ctx.getArg(["絵師検索"], msg["message"]["text"], ignoreCase=False)
         if not args:
             msgs = [TextMessage("絵師IDを指定してください")]
             cl.replyMessage(msgs)
@@ -200,14 +202,14 @@ def app_callback():
     if request.method == "POST":
         data = request.get_json()
         for d in data["events"]:
-            tracer.trace(d, "Operation")
+            tracer.trace(d, TraceType.EVENT)
     return "OK"
 
 
 def createApp():
     app = Flask(__name__)
     app.add_url_rule('/callback', 'callback', app_callback, methods=["GET", "POST"])
-    tracer.addClass(Operations())
+    tracer.addClass(Events())
     tracer.addClass(Contents())
     tracer.addClass(Commands())
     tracer.startup()
